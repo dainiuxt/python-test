@@ -36,31 +36,19 @@ def find_index_of_darkest_street_light(road_length: int, not_working_street_ligh
   def calculate_illumination(length):
     distance = 0
     n = 0
+    illuminations = []
     while distance <= length :
       illumination = 3**(-(distance/90)**2)
       if illumination > 0.01:
+        illuminations.append(illumination)
         print(f"{n}: at {distance} meters with {round(illumination, 3)} illumination.")
         distance += 20
         n += 1
       else:
         break
-
-  Running   
+    print(illuminations)
   calculate_illumination(2000)
-  gaves us output
-
-  0: at 0 meters with 1.0 illumination.
-  1: at 20 meters with 0.947 illumination.
-  2: at 40 meters with 0.805 illumination.
-  3: at 60 meters with 0.614 illumination.
-  4: at 80 meters with 0.42 illumination.
-  5: at 100 meters with 0.258 illumination.
-  6: at 120 meters with 0.142 illumination.
-  7: at 140 meters with 0.07 illumination.
-  8: at 160 meters with 0.031 illumination.
-  9: at 180 meters with 0.012 illumination.
-  
-  I chouse to provide theese illuminations without rounding as a list below.
+  Theese illuminations values provided without rounding as a list below.
   """
 
   working_neighbour_illuminations = [1.0,
@@ -74,35 +62,38 @@ def find_index_of_darkest_street_light(road_length: int, not_working_street_ligh
                                     0.031049972484260627,
                                     0.012345679012345678]
 
-  # Making a list of WORKING street lights
+  # Making a list of WORKING street lights for calculation check
   working_street_lights = []
   distance = 0
-  light_number = 0
+  light_index = 0
   while distance <= road_length:
-    if light_number in not_working_street_lights:
-      light_number += 1
+    if light_index in not_working_street_lights:
+      light_index += 1
       distance += 20
     else:
-      working_street_lights.append(light_number)
-      light_number += 1
+      working_street_lights.append(light_index)
+      light_index += 1
       distance += 20
   
-  illuminations = []
+  illuminations = [] # illuminations for not working street lights
+  lesser_than_one_illuminations = [] #index of street lights where illumination < 1
   for val in not_working_street_lights:
-    illumination = 0
+    illumination = 0 # self illumination of not working street light
     for delta in range(-9, 10):
       calculate_number = val + delta
       if calculate_number in working_street_lights:
         illumination = illumination + working_neighbour_illuminations[abs(delta)]
-        # print(delta, calculate_number, val, working_neighbour_illuminations[abs(delta)], illumination)
-    illuminations.append(illumination)        
+    illuminations.append(illumination) # append street light illumination to the list
+    
+    if illumination < 1:
+      lesser_than_one_illuminations.append(val) #append index of very dimm (<1) street light       
+
+  small_count = len([i for i in illuminations if i < 1])  
+  print(small_count)
   
-  # print(illuminations)
-  # print(min(illuminations))
   dimmest_set = []
   dimmest = illuminations.index(min(illuminations))
   dimmest_set.append(dimmest)
-  # print(not_working_street_lights[dimmest_set[0]])
   return not_working_street_lights[dimmest_set[0]]
 
 

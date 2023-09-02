@@ -28,10 +28,86 @@ Optional (for extra Karma points):
 """
 
 def find_index_of_darkest_street_light(road_length: int, not_working_street_lights: list[int]) -> int:
-    # TODO: Replace this with a real implementation:
-    return 5
+  """
+  Illumination for every street light is the sum of self illumination (1 if street light is working, 0 if street light is not working), plus illuminations of working neighbouring street lights.
+  
+  Taking into account only thouse, which illuminations are greater than 0.01, we should use in calculations only thouse in distance of 180 m or index +/- 9. These illuminations can be calculated using function below:
+  
+  def calculate_illumination(length):
+    distance = 0
+    n = 0
+    while distance <= length :
+      illumination = 3**(-(distance/90)**2)
+      if illumination > 0.01:
+        print(f"{n}: at {distance} meters with {round(illumination, 3)} illumination.")
+        distance += 20
+        n += 1
+      else:
+        break
+
+  Running   
+  calculate_illumination(2000)
+  gaves us output
+
+  0: at 0 meters with 1.0 illumination.
+  1: at 20 meters with 0.947 illumination.
+  2: at 40 meters with 0.805 illumination.
+  3: at 60 meters with 0.614 illumination.
+  4: at 80 meters with 0.42 illumination.
+  5: at 100 meters with 0.258 illumination.
+  6: at 120 meters with 0.142 illumination.
+  7: at 140 meters with 0.07 illumination.
+  8: at 160 meters with 0.031 illumination.
+  9: at 180 meters with 0.012 illumination.
+  
+  I chouse to provide theese illuminations without rounding as a list below.
+  """
+
+  working_neighbour_illuminations = [1.0,
+                                    0.9471929492141141,
+                                    0.8049220530197625,
+                                    0.613685849032916,
+                                    0.41977377692101514,
+                                    0.257609226691527,
+                                    0.14183533411213797,
+                                    0.07006229694981106,
+                                    0.031049972484260627,
+                                    0.012345679012345678]
+
+  # Making a list of WORKING street lights
+  working_street_lights = []
+  distance = 0
+  light_number = 0
+  while distance <= road_length:
+    if light_number in not_working_street_lights:
+      light_number += 1
+      distance += 20
+    else:
+      working_street_lights.append(light_number)
+      light_number += 1
+      distance += 20
+  
+  illuminations = []
+  for val in not_working_street_lights:
+    illumination = 0
+    for delta in range(-9, 10):
+      calculate_number = val + delta
+      if calculate_number in working_street_lights:
+        illumination = illumination + working_neighbour_illuminations[abs(delta)]
+        # print(delta, calculate_number, val, working_neighbour_illuminations[abs(delta)], illumination)
+    illuminations.append(illumination)        
+  
+  # print(illuminations)
+  # print(min(illuminations))
+  dimmest_set = []
+  dimmest = illuminations.index(min(illuminations))
+  dimmest_set.append(dimmest)
+  # print(not_working_street_lights[dimmest_set[0]])
+  return not_working_street_lights[dimmest_set[0]]
+
 
 if __name__ == "__main__":
     # This is an example test. When evaluating the task, more will be added:
     assert find_index_of_darkest_street_light(road_length=200, not_working_street_lights=[4, 5, 6]) == 5
     print("ALL TESTS PASSED")
+    

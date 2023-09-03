@@ -1,5 +1,4 @@
 def find_index_of_darkest_street_light(road_length: int, not_working_street_lights: list[int]) -> int:
-  for_possible_change = not_working_street_lights
   working_neighbour_illuminations = [1.0,
                                     0.9471929492141141,
                                     0.8049220530197625,

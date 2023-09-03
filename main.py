@@ -53,7 +53,7 @@ def find_index_of_darkest_street_light(road_length: int, not_working_street_ligh
           current_consecutive = [below_one_illuminations_index[i]]
     if len(current_consecutive) > 1:
       consecutives_below_one.append(current_consecutive)
-  # END of borrowerd code.
+  # END of borrowed code.
 
   # At least every 7th member of long inactive sequence should be replaced `len(consecutives_below_one[i])/7`, to keep illumination above 1.
   should_be_brightened = []
@@ -63,15 +63,6 @@ def find_index_of_darkest_street_light(road_length: int, not_working_street_ligh
       while j < len(consecutives_below_one[i]):
         should_be_brightened.append(consecutives_below_one[i][j])
         j = j + 7
- 
-  # Debug prints. Will be removed later.
-  # print("All consecutives below one:")
-  # print(consecutives_below_one)
-  # print("Below 1 illuminations indexes:")
-  # print(below_one_illuminations_index)
-  # print("Below one illumination values:")
-  # print(below_one_illuminations)
-  # print("Lamps should be replaced to keep illuminations above 1:")
   
   dimmest_set = []
   dimmest = illuminations.index(min(illuminations))

@@ -38,8 +38,8 @@ def find_index_of_darkest_street_light(road_length: int, not_working_street_ligh
       below_one_illuminations_index.append(val) # index of very dimm (<1) street light
       below_one_illuminations.append(illumination) # values of very dimm (<1) street light      
   
-  # At least every 7th street light should be working to have cumulative illumination above 1. We should check if len(below_one_illuminations) > 14 then replace every 7th lamp (remove every 7th member from list and check again), if list length < 14 we can simply remove the midle number. Downsides are that we can have 15 inactive lamps in a row, then some singles or 2-3, hence index consistency check should be implemented.
-
+  # ADDITIONAL TASK section starts here.
+  # Logic: At least every 7th street light should be working to have cumulative illumination above 1. We should check if len(below_one_illuminations) > 14 then replace every 7th lamp (remove every 7th member from list and check again), if list length < 14 we can simply remove the midle number. Downsides are that we can have 15 inactive lamps in a row, then some singles or 2-3, hence index consistency check should be implemented.
   # Below code builds the list of consecutives list from non_working and illuminations_below_one (code borrowed from https://softhints.com/find-consecutive-numbers-in-a-list-in-python/, I chose vanilla python version at the end of article.)
   if len(below_one_illuminations) > 14:  
     current_consecutive = [below_one_illuminations_index[0]]
@@ -62,6 +62,7 @@ def find_index_of_darkest_street_light(road_length: int, not_working_street_ligh
       while j < len(consecutives_below_one[i]):
         should_be_brightened.append(consecutives_below_one[i][j])
         j = j + 7
+  # ADDITIONAL task code segment ENDS here. Outputs via `print()` will be provided below.
   
   dimmest_set = []
   dimmest = illuminations.index(min(illuminations))

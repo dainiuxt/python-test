@@ -62,23 +62,73 @@ def find_index_of_darkest_street_light(road_length: int, not_working_street_ligh
       while j < len(consecutives_below_one[i]):
         should_be_brightened.append(consecutives_below_one[i][j])
         j = j + 7
+
   # ADDITIONAL task code segment ENDS here. Outputs via `print()` will be provided below.
   
   dimmest_set = []
-  dimmest = illuminations.index(min(illuminations))
-  dimmest_set.append(dimmest)
+  if len(illuminations) != 0:
+    dimmest = illuminations.index(min(illuminations))
+    dimmest_set.append(dimmest)
   
-  print(f"Lamps on lightposts No. {should_be_brightened} should be changed to keep illumination at least 1.")
-  print(f"Total quantity of lamps should be changed to keep illumination at least 1: {len(should_be_brightened)}.")
-  print(f"The dimmest lamp for change is No. {not_working_street_lights[dimmest_set[0]]}")
+  # print(f"Lamps on lightposts No. {should_be_brightened} should be changed to keep illumination at least 1.")
+  # print(f"Total quantity of lamps should be changed to keep illumination at least 1: {len(should_be_brightened)}.")
+  # print(f"The dimmest lamp for change is No. {not_working_street_lights[dimmest_set[0]]}")
   
   # Row below returns the dimmest lamp post index starting to count from 0 for testing.
-  return not_working_street_lights[dimmest_set[0]]
+  if len(dimmest_set) != 0:
+    return not_working_street_lights[dimmest_set[0]]
 
 find_index_of_darkest_street_light(road_length=200000, not_working_street_lights=[4, 5, 6, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217])
 
 if __name__ == "__main__":
     # This is an example test. When evaluating the task, more will be added:
+    print("1. Task test:")
     assert find_index_of_darkest_street_light(road_length=200, not_working_street_lights=[4, 5, 6]) == 5
-    print("ALL TESTS PASSED")
+    print("OK")
     
+    print("2. Solution in the begining of the road:")
+    assert find_index_of_darkest_street_light(road_length=20000, not_working_street_lights=list(range(0, 500))) == 0
+    print("OK")
+    
+    print("3. Solution in the end of the road:")
+    assert find_index_of_darkest_street_light(road_length=20000, not_working_street_lights=list(range(992, 1001))) == 1000
+    print("OK")
+    
+    print("4. Discarded when reduced below 1%:")
+    assert find_index_of_darkest_street_light(road_length=20000, not_working_street_lights=list(range(988, 1001))) == 997
+    print("OK")
+    
+    print("5. Solution in the first dark region:")
+    assert find_index_of_darkest_street_light(road_length=20000, not_working_street_lights=list(range(350, 365)) + list(range(600, 610))) == 357
+    print("OK")
+    
+    print("6. Solution in the second dark region:")
+    assert find_index_of_darkest_street_light(road_length=20000, not_working_street_lights=list(range(350, 360)) + list(range(600, 615))) == 607
+    print("OK")
+
+    print("7. Solution in the last dark region:")
+    assert find_index_of_darkest_street_light(road_length=20000, not_working_street_lights=list(range(400, 410)) + list(range(422, 429)) + list(range(600, 615))) == 607
+    print("OK")    
+
+    print("8. Solution in the middle dark region:")
+    assert find_index_of_darkest_street_light(road_length=20000, not_working_street_lights=[400, 401, 403, 420, 421, 422, 440, 441, 442]) == 421
+    print("OK") 
+
+    print("9. Solution for longest possible road:")
+    assert find_index_of_darkest_street_light(road_length=2000000, not_working_street_lights=list(range(50000, 50016))) == 50007
+    print("OK") 
+
+    print("10. Solution for extralong road:")
+    assert find_index_of_darkest_street_light(road_length=9000000, not_working_street_lights=list(range(50000, 50016))) == 50007
+    print("OK") 
+
+    print("11. Solution when road has only one lamp:")
+    assert find_index_of_darkest_street_light(road_length=2000, not_working_street_lights=[0]) == 0
+    print("OK") 
+
+    print("12. Solution when all lamps are OK:")
+    # print(find_index_of_darkest_street_light(road_length=2000, not_working_street_lights=[]))
+    assert find_index_of_darkest_street_light(road_length=2000, not_working_street_lights=[]) == None
+    print("OK") 
+                    
+    print("ALL TESTS PASSED")
